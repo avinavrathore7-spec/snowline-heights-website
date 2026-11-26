@@ -27,7 +27,9 @@ module.exports = async function handler(req, res) {
     if (!roomResp.ok) throw new Error("Could not verify the room hold.");
     if (!(await roomResp.json()).length) return res.status(409).json({ error: "The room hold is no longer active." });
 
-    const totalAmount = Number(booking.total_amount);\n    const advanceAmount = Math.round(totalAmount * 0.25 * 100) / 100;\n    const amount = Math.round(advanceAmount * 100);
+    const totalAmount = Number(booking.total_amount);
+    const advanceAmount = Math.round(totalAmount * 0.25 * 100) / 100;
+    const amount = Math.round(advanceAmount * 100);
     if (!Number.isSafeInteger(amount) || amount < 100) return res.status(400).json({ error: "Invalid booking amount." });
     const auth = Buffer.from(keyId + ":" + keySecret).toString("base64");
     const razorResp = await fetch("https://api.razorpay.com/v1/orders", {
