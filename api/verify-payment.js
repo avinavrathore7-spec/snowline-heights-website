@@ -36,7 +36,7 @@ module.exports = async function handler(req, res) {
     const razorResp = await fetch("https://api.razorpay.com/v1/payments/" + encodeURIComponent(razorpay_payment_id), { headers: { Authorization: "Basic " + auth } });
     const razorPayment = await razorResp.json();
     if (!razorResp.ok) return res.status(502).json({ error: "Could not confirm payment status with Razorpay." });
-    if (razorPayment.order_id !== razorpay_order_id || Number(razorPayment.amount) !== Math.round(Number(booking.total_amount) * 100) || razorPayment.currency !== "INR") {
+    if (razorPayment.order_id !== razorpay_order_id || Number(razorPayment.amount) !== Math.round(Number(payment.amount) * 100) || Math.abs(Number(payment.amount) - Number(booking.total_amount) * 0.25) > 0.01 || razorPayment.currency !== "INR") {
       return res.status(400).json({ error: "Payment details do not match the booking amount." });
     }
     if (razorPayment.status !== "captured") {
@@ -53,7 +53,7 @@ module.exports = async function handler(req, res) {
       body: JSON.stringify({ payment_status: "paid", booking_status: "confirmed" })
     });
     if (!updateBooking.ok) throw new Error("Payment was received but booking confirmation needs hotel assistance. Contact the hotel with code " + booking_code + ".");
-    return res.status(200).json({ success: true, booking_code, message: "Payment successful. Your booking is confirmed." });
+    return res.status(200).json({ success: true, booking_code, advance_paid: Number(payment.amount), balance_due: Math.round((Number(booking.total_amount) - Number(payment.amount)) * 100) / 100, message: "25% advance payment successful. Your booking is confirmed." });
   } catch (error) {
     return res.status(500).json({ error: error.message || "Could not verify payment." });
   }
