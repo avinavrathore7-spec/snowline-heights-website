@@ -40,7 +40,7 @@ label{display:block;font-weight:600;font-size:13px;margin-bottom:6px}input,selec
 <p class="hint">Displayed tariffs are indicative per room per night. Date-specific rates and availability must be confirmed before payment.</p>
 <h2 style="margin-top:25px">2. Select a room category</h2>
 <div class="room-list" id="roomList"></div>
-<div id="guestPanel" hidden style="margin-top:24px;border-top:1px solid var(--line);padding-top:20px"><h2>3. Guest details</h2><div class="fields"><div class="field full"><label for="guestName">Full name *</label><input id="guestName" autocomplete="name" required placeholder="Name of primary guest"></div><div class="field"><label for="guestPhone">Mobile number *</label><input id="guestPhone" type="tel" autocomplete="tel" required placeholder="+91"></div><div class="field"><label for="guestEmail">Email (optional)</label><input id="guestEmail" type="email" autocomplete="email" placeholder="you@example.com"></div></div><button class="primary" id="holdRoom" type="button">Reserve room for 10 minutes</button><p class="hint">No payment is collected yet. The room hold expires after 10 minutes.</p><div class="status" id="bookingStatus" role="status"></div></div>
+<div id="guestPanel" hidden style="margin-top:24px;border-top:1px solid var(--line);padding-top:20px"><h2>3. Guest details</h2><div class="fields"><div class="field full"><label for="guestName">Full name *</label><input id="guestName" autocomplete="name" required placeholder="Name of primary guest"></div><div class="field"><label for="guestPhone">Mobile number *</label><input id="guestPhone" type="tel" autocomplete="tel" required placeholder="+91"></div><div class="field"><label for="guestEmail">Email (optional)</label><input id="guestEmail" type="email" autocomplete="email" placeholder="you@example.com"></div></div><button class="primary" id="holdRoom" type="button">Book Now · Pay 25% Advance</button><p class="hint">Pay 25% now to confirm your booking. Remaining 75% is payable at the hotel.</p><div class="status" id="bookingStatus" role="status"></div></div>
 </section>
 <aside class="panel summary">
 <h2>Stay summary</h2>
@@ -85,14 +85,14 @@ $('holdRoom').addEventListener('click',async()=>{
     const holdRes=await fetch('/api/create-booking',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({...verifiedSelection,guest_name,guest_phone,guest_email:guest_email||null})});
     const hold=await holdRes.json();if(!holdRes.ok)throw new Error(hold.error||'Could not create room hold.');
     verifiedSelection=null;
-    $('bookingStatus').textContent='Room held: '+hold.room_number+' · Booking code: '+hold.booking_code+'. Creating secure payment…';
+    $('bookingStatus').textContent='Room secured: '+hold.room_number+' · Booking code: '+hold.booking_code+'. Preparing 25% advance payment…';
     const orderRes=await fetch('/api/create-razorpay-order',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({booking_code:hold.booking_code})});
     const order=await orderRes.json();
     if(!orderRes.ok)throw new Error(order.error||'Room is held, but payment could not be started. Contact the hotel with booking code '+hold.booking_code+'.');
     if(typeof Razorpay==='undefined')throw new Error('Payment window could not load. Your room is held for 10 minutes. Refresh and contact the hotel if needed.');
     const checkout=new Razorpay({
       key:order.key_id,amount:order.amount,currency:order.currency,name:'Snowline Heights Manali',
-      description:'Room booking · '+order.booking_code,order_id:order.order_id,
+      description:'25% booking advance · '+order.booking_code,order_id:order.order_id,
       prefill:{name:guest_name,email:guest_email,contact:guest_phone},
       notes:{booking_code:order.booking_code},
       theme:{color:'#153b31'},
@@ -102,11 +102,11 @@ $('holdRoom').addEventListener('click',async()=>{
           const verifyRes=await fetch('/api/verify-payment',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({...response,booking_code:order.booking_code})});
           const verified=await verifyRes.json();
           if(!verifyRes.ok||!verified.success)throw new Error(verified.message||verified.error||'Payment verification is pending. Do not pay again; contact the hotel with booking code '+order.booking_code+'.');
-          $('bookingStatus').textContent='✓ '+verified.message+' Booking code: '+order.booking_code+'.';
+          $('bookingStatus').textContent='✓ '+verified.message+' Advance paid: '+money(verified.advance_paid)+'. Balance due at hotel: '+money(verified.balance_due)+'. Booking code: '+order.booking_code+'.';
           btn.textContent='Booking confirmed';btn.disabled=true;
         }catch(err){$('bookingStatus').textContent=err.message||'Payment verification is pending. Contact the hotel with booking code '+order.booking_code+'.';}
       },
-      modal:{ondismiss:function(){$('bookingStatus').textContent='Payment window closed. Your room hold remains active until its 10-minute expiry. Booking code: '+order.booking_code+'.';}}
+      modal:{ondismiss:function(){$('bookingStatus').textContent='Payment window closed. No booking is confirmed yet. Your room is temporarily held for up to 10 minutes. Booking code: '+order.booking_code+'.';}}
     });
     checkout.on('payment.failed',function(response){$('bookingStatus').textContent='Payment failed: '+(response.error&&response.error.description||'Please try again before the room hold expires.')+' Booking code: '+order.booking_code+'.';});
     checkout.open();
