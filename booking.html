@@ -55,6 +55,7 @@ label{display:block;font-weight:600;font-size:13px;margin-bottom:6px}input,selec
 </aside>
 </div>
 </main>
+<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
 <script>
 const categories=[
  {id:'top',name:'Top Floor – Balcony',price:3000,rooms:3},
@@ -75,7 +76,43 @@ function refresh(){const r=selected(),n=nights(),ad=+$('adults').value,ch=+$('ch
 ['checkin','checkout','adults','children'].forEach(id=>$(id).addEventListener('change',()=>{verifiedSelection=null;$('guestPanel').hidden=true;if(id==='checkin'){$('checkout').min=$('checkin').value;if($('checkout').value<=$('checkin').value)$('checkout').value=''}refresh()}));
 document.querySelectorAll('input[name=room]').forEach(el=>el.addEventListener('change',()=>{verifiedSelection=null;$('guestPanel').hidden=true;refresh()}));
 $('continue').addEventListener('click',async()=>{const r=selected(),payload={check_in:$('checkin').value,check_out:$('checkout').value,adults:+$('adults').value,children:+$('children').value,room_type:r.id==='honeymoon'?'honeymoon':r.name};$('continue').disabled=true;$('guestPanel').hidden=true;verifiedSelection=null;$('status').textContent='Checking live room availability…';try{const res=await fetch('/api/availability',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload)});const data=await res.json();if(!res.ok){const detail=[data.error,data.upstream_status?'HTTP '+data.upstream_status:'',data.detail||''].filter(Boolean).join(' · ');throw new Error(detail||'Availability service is not ready yet.');}if(!data.available)throw new Error(data.message||'No rooms available for these dates.');verifiedSelection=payload;$('status').textContent=data.message||'Room availability confirmed. Enter guest details to place a temporary hold.';$('guestPanel').hidden=false;$('guestPanel').scrollIntoView({behavior:'smooth',block:'center'});}catch(e){$('status').textContent=e.message||'Could not check availability. Please try again.';}finally{$('continue').disabled=false}});
-$('holdRoom').addEventListener('click',async()=>{if(!verifiedSelection){$('bookingStatus').textContent='Please check availability again.';return;}const guest_name=$('guestName').value.trim(),guest_phone=$('guestPhone').value.trim(),guest_email=$('guestEmail').value.trim();if(guest_name.length<2||guest_phone.length<8){$('bookingStatus').textContent='Enter your full name and valid mobile number.';return;}const btn=$('holdRoom');btn.disabled=true;$('bookingStatus').textContent='Securing your room…';try{const res=await fetch('/api/create-booking',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({...verifiedSelection,guest_name,guest_phone,guest_email:guest_email||null})});const data=await res.json();if(!res.ok)throw new Error(data.error||'Could not create room hold.');$('bookingStatus').textContent='Room held: '+data.room_number+' · Booking code: '+data.booking_code+' · Hold expires at '+new Date(data.hold_expires_at).toLocaleTimeString('en-IN')+'. Payment setup is the next step.';btn.textContent='Room temporarily held';verifiedSelection=null;}catch(e){$('bookingStatus').textContent=e.message||'Could not create room hold.';}finally{btn.disabled=false}});
+$('holdRoom').addEventListener('click',async()=>{
+  if(!verifiedSelection){$('bookingStatus').textContent='Please check availability again.';return;}
+  const guest_name=$('guestName').value.trim(),guest_phone=$('guestPhone').value.trim(),guest_email=$('guestEmail').value.trim();
+  if(guest_name.length<2||guest_phone.length<8){$('bookingStatus').textContent='Enter your full name and valid mobile number.';return;}
+  const btn=$('holdRoom');btn.disabled=true;$('bookingStatus').textContent='Securing your room…';
+  try{
+    const holdRes=await fetch('/api/create-booking',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({...verifiedSelection,guest_name,guest_phone,guest_email:guest_email||null})});
+    const hold=await holdRes.json();if(!holdRes.ok)throw new Error(hold.error||'Could not create room hold.');
+    verifiedSelection=null;
+    $('bookingStatus').textContent='Room held: '+hold.room_number+' · Booking code: '+hold.booking_code+'. Creating secure payment…';
+    const orderRes=await fetch('/api/create-razorpay-order',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({booking_code:hold.booking_code})});
+    const order=await orderRes.json();
+    if(!orderRes.ok)throw new Error(order.error||'Room is held, but payment could not be started. Contact the hotel with booking code '+hold.booking_code+'.');
+    if(typeof Razorpay==='undefined')throw new Error('Payment window could not load. Your room is held for 10 minutes. Refresh and contact the hotel if needed.');
+    const checkout=new Razorpay({
+      key:order.key_id,amount:order.amount,currency:order.currency,name:'Snowline Heights Manali',
+      description:'Room booking · '+order.booking_code,order_id:order.order_id,
+      prefill:{name:guest_name,email:guest_email,contact:guest_phone},
+      notes:{booking_code:order.booking_code},
+      theme:{color:'#153b31'},
+      handler:async function(response){
+        $('bookingStatus').textContent='Payment received by checkout. Verifying securely…';
+        try{
+          const verifyRes=await fetch('/api/verify-payment',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({...response,booking_code:order.booking_code})});
+          const verified=await verifyRes.json();
+          if(!verifyRes.ok||!verified.success)throw new Error(verified.message||verified.error||'Payment verification is pending. Do not pay again; contact the hotel with booking code '+order.booking_code+'.');
+          $('bookingStatus').textContent='✓ '+verified.message+' Booking code: '+order.booking_code+'.';
+          btn.textContent='Booking confirmed';btn.disabled=true;
+        }catch(err){$('bookingStatus').textContent=err.message||'Payment verification is pending. Contact the hotel with booking code '+order.booking_code+'.';}
+      },
+      modal:{ondismiss:function(){$('bookingStatus').textContent='Payment window closed. Your room hold remains active until its 10-minute expiry. Booking code: '+order.booking_code+'.';}}
+    });
+    checkout.on('payment.failed',function(response){$('bookingStatus').textContent='Payment failed: '+(response.error&&response.error.description||'Please try again before the room hold expires.')+' Booking code: '+order.booking_code+'.';});
+    checkout.open();
+  }catch(e){$('bookingStatus').textContent=e.message||'Could not start booking payment.';}
+  finally{if(btn.textContent!=='Booking confirmed')btn.disabled=false;}
+});
 refresh();
 </script>
 </body></html>
