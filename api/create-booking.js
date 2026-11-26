@@ -63,7 +63,8 @@ module.exports = async function handler(req, res) {
     if (!linkResp.ok) {
       await rest("bookings?id=eq." + booking.id, { method: "DELETE" });
       if (linkResp.status === 409 || linkResp.status === 400) return res.status(409).json({ error: "That room was just booked by someone else. Please check availability again." });
-      throw new Error("Could not hold the selected room.");
+      const linkError = await linkResp.text();
+      throw new Error("Could not hold the selected room (database " + linkResp.status + "): " + linkError.slice(0, 500));
     }
 
     return res.status(201).json({
