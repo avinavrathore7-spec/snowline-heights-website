@@ -1,88 +1,61 @@
 
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="theme-color" content="#173d32">
-<meta name="description" content="Explore rooms, amenities and bonfire experience at Snowline Heights, Manali.">
-<title>Snowline Heights | Rooms & Tariffs</title>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#102f27">
+<meta name="description" content="Explore rooms at Snowline Heights, Manali. View real room photos, video tours and enquire directly on WhatsApp.">
+<title>Rooms & Tariffs | Snowline Heights Manali</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
-:root{--green:#173d32;--dark:#102e26;--gold:#b69a66;--cream:#f5f2e9;--paper:#fffefa;--ink:#26332d;--muted:#737b73;--line:#e6e1d5}
+:root{--green:#153b31;--green2:#0d2b23;--lime:#1c6b45;--gold:#c9b58a;--bg:#050706;--panel:#090d0b;--muted:#a9b0ac;--line:#202a25;--white:#f5f7f5}
 *{box-sizing:border-box}
 html{scroll-behavior:smooth}
-body{margin:0;background:var(--cream);color:var(--ink);font:15px/1.6 'DM Sans',sans-serif}
-.top{background:var(--green);color:white;padding:22px 18px;text-align:center;border-bottom:3px solid var(--gold)}
-.brand{font-family:'Playfair Display',serif;font-size:28px;font-weight:600;letter-spacing:1.5px}
-.sub{color:#dfd2b5;font-size:11px;letter-spacing:3px;margin-top:4px}
-.nav{background:var(--paper);border-bottom:1px solid var(--line);padding:11px 12px;display:flex;justify-content:center;gap:24px;flex-wrap:wrap}
-.nav a{color:var(--green);text-decoration:none;font-size:12px;font-weight:700}
-.intro{max-width:1050px;margin:38px auto 25px;padding:0 20px;text-align:center}
-.eyebrow{color:var(--gold);font-size:11px;letter-spacing:2.5px;font-weight:700}
-h1,h2,h3{font-family:'Playfair Display',serif;color:var(--green)}
-.intro h1{font-size:clamp(29px,5vw,43px);line-height:1.2;margin:8px 0}
-.intro p{max-width:650px;margin:10px auto;color:var(--muted);font-size:14px}
-.section{max-width:1050px;margin:45px auto;padding:0 18px}
-.section-title{text-align:center;margin-bottom:22px}
-.section-title h2{font-size:30px;margin:5px 0}
-.section-title p{color:var(--muted);font-size:13px;margin:5px 0}
-.amenities{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
-.amenity{background:var(--paper);border:1px solid var(--line);border-radius:12px;padding:17px 10px;text-align:center;font-size:13px;font-weight:600;color:var(--green)}
-.amenity span{display:block;font-size:23px;margin-bottom:5px}
-.rooms{max-width:1050px;margin:0 auto;padding:0 18px 30px}
-.room{display:grid;grid-template-columns:1.05fr 1fr;background:var(--paper);border:1px solid var(--line);border-radius:17px;overflow:hidden;margin:22px 0;box-shadow:0 5px 20px #173d3209}
-.gallery{min-width:0;background:#e9e5dc}
-.slider{position:relative;overflow:hidden;background:#e9e5dc}
-.track{display:flex;transition:transform .3s ease}
-.track img{flex:0 0 100%;width:100%;height:390px;object-fit:cover;display:block}
-.arrow{position:absolute;top:50%;transform:translateY(-50%);width:37px;height:37px;border:0;border-radius:50%;background:#173d32d9;color:white;font-size:23px;cursor:pointer}
+body{margin:0;background:var(--bg);color:var(--white);font:16px/1.55 'DM Sans',sans-serif}
+.top{background:var(--green);padding:19px 20px 17px;position:sticky;top:0;z-index:10;border-bottom:1px solid #ffffff10}
+.brand{font-size:21px;line-height:1.2;font-weight:700;letter-spacing:.3px}
+.sub{margin-top:8px;color:#d6c9a9;font-size:13px;letter-spacing:1.1px}
+.intro{max-width:760px;margin:28px auto 12px;padding:0 18px}
+.intro h1{font-size:25px;line-height:1.2;margin:0 0 7px}
+.intro p{color:var(--muted);margin:0;font-size:14px}
+.rooms{max-width:760px;margin:0 auto;padding:0 14px 36px}
+.room{background:var(--panel);border:1px solid var(--line);border-radius:20px;overflow:hidden;margin:18px 0 24px}
+.roomhead{padding:16px 16px 12px}
+.eyebrow{font-size:11px;color:#b7bcb9;letter-spacing:.7px;text-transform:uppercase}
+.price{color:#c9b58a;font-size:37px;line-height:1.1;font-weight:700;letter-spacing:-1px}
+.price small{display:block;color:#aeb6b1;font-size:16px;line-height:1.5;font-weight:400;letter-spacing:0;margin-top:3px}
+.slider{position:relative;overflow:hidden;background:#0b100e;touch-action:pan-y}
+.track{display:flex;transition:transform .32s ease}
+.track img{flex:0 0 100%;width:100%;height:clamp(430px,118vw,590px);object-fit:contain;object-position:center;display:block;background:#0b100e}
+.nav{position:absolute;top:50%;transform:translateY(-50%);width:38px;height:38px;border:1px solid #ffffff55;border-radius:50%;background:#07110dcc;color:white;font-size:24px;line-height:1;cursor:pointer}
 .prev{left:10px}.next{right:10px}
-.count{position:absolute;bottom:12px;right:12px;background:#102e26df;color:white;padding:4px 10px;border-radius:20px;font-size:11px}
-.dots{display:flex;justify-content:center;align-items:center;gap:7px;padding:11px;flex-wrap:wrap}
-.dot{border:0;width:8px;height:8px;padding:0;border-radius:50%;background:#b8b7ad;cursor:pointer}
-.dot.on{background:var(--green);width:19px;border-radius:10px}
-.swipe{font-size:11px;color:var(--muted);margin-left:5px}
-.room-info{padding:25px}
-.floor-label{color:var(--gold);font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase}
-.room-info h3{font-size:27px;line-height:1.2;margin:6px 0 8px}
-.description{color:var(--muted);font-size:13px;margin:0 0 17px}
-.rate-box{border-top:1px solid var(--line);padding:13px 0}
-.rate-title{font-size:12px;font-weight:700;color:var(--green)}
-.rate-price{font-family:'Playfair Display',serif;font-size:27px;font-weight:700;color:var(--green);line-height:1.25}
-.rate-price small{font-family:'DM Sans',sans-serif;font-size:11px;font-weight:400;color:var(--muted)}
-.book{display:block;text-align:center;text-decoration:none;background:var(--green);color:white;padding:10px 12px;border-radius:8px;margin-top:8px;font-size:12px;font-weight:700}
-.book:hover{background:var(--dark)}
-.facts{display:flex;flex-wrap:wrap;gap:7px;margin-top:13px}
-.facts span{background:#f0eee6;color:#536056;padding:5px 9px;border-radius:20px;font-size:10px}
-.video{grid-column:1/-1;padding:14px 20px 20px;border-top:1px solid var(--line)}
-.video h4{color:var(--green);margin:0 0 10px;font-size:14px}
-.video-list{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
-.video video{width:100%;max-height:330px;background:#111;border-radius:9px;display:block}
-.special-note{color:var(--muted);font-size:12px;margin-top:8px}
-.bonfire{display:grid;grid-template-columns:1fr 1fr;background:var(--green);border-radius:17px;overflow:hidden;color:white}
-.bonfire img{width:100%;height:300px;object-fit:cover;display:block}
-.bonfire-content{padding:30px;align-self:center}
-.bonfire-content h2{color:white;font-size:30px;margin:5px 0 10px}
-.bonfire-content p{color:#e0e6df;font-size:13px}
-.bonfire .book{background:var(--gold);color:#172c23;display:inline-block;padding:12px 20px}
-.notice{text-align:center;color:var(--muted);font-size:11px;padding:10px 20px 30px}
-.footer{text-align:center;background:var(--dark);color:#d9d5c8;padding:25px 15px;font-size:11px;letter-spacing:1px}
-@media(max-width:700px){
-.brand{font-size:24px}
-.nav{gap:15px}
-.amenities{grid-template-columns:repeat(2,1fr)}
-.room{grid-template-columns:1fr}
-.track img{height:310px}
-.room-info{padding:20px}
-.room-info h3{font-size:25px}
-.video{grid-column:auto;padding:15px}
-.video-list{grid-template-columns:1fr}
-.bonfire{grid-template-columns:1fr}
-.bonfire img{height:220px}
-.bonfire-content{padding:22px}
+.count{position:absolute;bottom:10px;right:10px;background:#07110ddd;color:white;border-radius:30px;padding:4px 9px;font-size:11px}
+.dots{display:flex;align-items:center;justify-content:center;gap:8px;padding:12px 8px 17px;color:#aeb6b1;font-size:13px}
+.dot{border:0;border-radius:22px;min-width:43px;height:31px;padding:0 11px;background:#242927;color:#f2f4f2;font:500 13px 'DM Sans',sans-serif;cursor:pointer}
+.dot.on{background:#075b32;color:#d8f3df}
+.swipe{margin-left:4px;white-space:nowrap}
+.details{padding:18px 16px 19px;border-top:1px solid var(--line)}
+.details h3{font-size:25px;line-height:1.25;margin:0 0 14px}
+.details h4{font-size:19px;margin:14px 0 8px}
+.details p{font-size:16px;line-height:1.55;margin:0;color:#e2e6e3}
+.facts{display:flex;flex-wrap:wrap;gap:8px;margin-top:13px}
+.facts span{font-size:12px;background:#252a28;color:#e1e5e2;border-radius:22px;padding:6px 11px}
+.cta{display:block;margin:0 12px 14px;background:var(--green);border:1px solid #285c4d;color:white;text-decoration:none;text-align:center;border-radius:16px;padding:16px 12px;font-size:18px;font-weight:700}
+.cta small{display:block;color:#d6c9a9;font-size:14px;font-weight:500;margin-top:5px}
+.video{padding:2px 14px 18px}
+.video h3{font-size:18px;margin:7px 0 10px}
+.video video{width:100%;max-height:430px;border-radius:12px;background:#000;display:block}
+.notice{text-align:center;color:#929b95;font-size:12px;padding:0 18px 25px}
+.footer{text-align:center;background:#0b100e;border-top:1px solid var(--line);color:#a8b1ab;font-size:11px;letter-spacing:1px;padding:23px 12px}
+@media(min-width:700px){
+.top{padding-left:max(22px,calc((100% - 720px)/2))}
+.room{border-radius:22px}
+.track img{height:570px}
+.roomhead{padding:20px 22px 14px}
+.details{padding:20px 22px}
+.cta{margin:0 16px 16px}
 }
 </style>
 </head>
@@ -93,61 +66,12 @@ h1,h2,h3{font-family:'Playfair Display',serif;color:var(--green)}
 <div class="sub">MANALI · HIMACHAL PRADESH</div>
 </header>
 
-<nav class="nav">
-<a href="#rooms">ROOMS & TARIFFS</a>
-<a href="#amenities">AMENITIES</a>
-<a href="#bonfire">BONFIRE</a>
-</nav>
-
 <section class="intro">
-<div class="eyebrow">WELCOME TO THE MOUNTAINS</div>
-<h1>Stay Comfortably. Experience Manali.</h1>
-<p>Explore our rooms through actual photographs and video tours. Choose your preferred room category and enquire directly with us.</p>
+<h1>Rooms at Snowline Heights</h1>
+<p>Explore our room collection, swipe through actual photographs and watch room video tours.</p>
 </section>
 
-<section class="section" id="amenities">
-<div class="section-title">
-<div class="eyebrow">COMFORT & CONVENIENCE</div>
-<h2>Room Amenities</h2>
-<p>Essential comforts for a relaxed stay.</p>
-</div>
-<div class="amenities">
-<div class="amenity"><span>📶</span>Free Wi-Fi</div>
-<div class="amenity"><span>🚿</span>Hot Water</div>
-<div class="amenity"><span>🛎️</span>Room Service</div>
-<div class="amenity"><span>🚽</span>Attached Bathroom</div>
-<div class="amenity"><span>🛏️</span>Comfortable Bedding</div>
-<div class="amenity"><span>🚗</span>Parking</div>
-<div class="amenity"><span>📺</span>TV</div>
-<div class="amenity"><span>☕</span>Electric Kettle</div>
-</div>
-</section>
-
-<main class="rooms" id="rooms">
-<div class="section-title">
-<div class="eyebrow">FIND YOUR ROOM</div>
-<h2>Rooms & Tariffs</h2>
-<p>All regular room rates are per room per night for 2 adults.</p>
-</div>
-</main>
-
-<section class="section" id="bonfire">
-<div class="section-title">
-<div class="eyebrow">MOUNTAIN EVENINGS</div>
-<h2>Bonfire Experience</h2>
-<p>Make your Manali evenings memorable.</p>
-</div>
-<div class="bonfire">
-<img src="https://images.pexels.com/photos/5023621/pexels-photo-5023621.jpeg?auto=compress&cs=tinysrgb&w=1200" alt="Outdoor bonfire">
-<div class="bonfire-content">
-<div class="eyebrow">GATHER. RELAX. ENJOY.</div>
-<h2>Evenings Around the Bonfire</h2>
-<p>Enjoy the warmth of a bonfire and spend a memorable evening with your loved ones amidst the mountain atmosphere.</p>
-<p>Please contact our team for availability, arrangements and applicable charges.</p>
-<a class="book" href="https://wa.me/917807910146?text=Hello%20Snowline%20Heights%2C%20please%20share%20details%20about%20bonfire%20availability%20and%20charges." target="_blank" rel="noopener">Enquire on WhatsApp</a>
-</div>
-</div>
-</section>
+<main class="rooms" id="rooms"></main>
 
 <div class="notice">
 Rates are per room per night for 2 adults. Final tariff and availability are confirmed for your travel dates.
@@ -155,84 +79,75 @@ Rates are per room per night for 2 adults. Final tariff and availability are con
 
 <footer class="footer">
 SNOWLINE HEIGHTS · MANALI · HIMACHAL PRADESH
-<br><br>
-DIRECT BOOKING ENQUIRIES: +91 78079 10146
 </footer>
 
 <script>
 const rooms=[
+
 {
 floor:'Top Floor',
-category:'With Balcony',
 price:'₹3,000',
 desc:'Explore the top-floor room through its actual photographs and video tours. Contact us for room details and date-wise availability.',
-facts:['2 Adults','Top Floor','With Balcony'],
+facts:['2 Adults','Top Floor','Room video tours'],
 photos:['top-1328.jpg','top-1253.jpg','top-1248.jpg','top-1250.jpg','top-1327.jpg'],
 videos:['top-tour-1.mp4','top-tour-2.mp4']
 },
+
 {
 floor:'3rd Floor',
-category:'With Balcony',
 price:'₹2,500',
 desc:'Distinctive circular wooden ceiling design, premium wooden interiors, a double bed and a window-side seating area.',
 facts:['2 Adults','Wooden interiors','3rd Floor'],
 photos:['third-1331.jpg','third-1332.jpg','third-1333.jpg','third-1334.jpg'],
 videos:['third-tour.mp4']
 },
+
 {
 floor:'2nd Floor',
-category:'With Balcony',
 price:'₹2,000',
 desc:'A welcoming room with wooden ceiling and interiors, a double bed, window-side views, wardrobe and a small seating area.',
 facts:['2 Adults','Wooden ceiling','2nd Floor'],
 photos:['second-1336.jpg','second-1337.jpg','second-1338.jpg','second-1339.jpg','second-1340.jpg','second-1341.jpg'],
 videos:['second-tour.mp4']
 },
+
 {
 floor:'1st Floor',
-category:'With Balcony',
 price:'₹1,500',
 desc:'Warm wooden interiors, comfortable double bed, natural-light window and wardrobe with seating space.',
 facts:['2 Adults','Wooden interiors','1st Floor'],
 photos:['first-1.jpg','first-2.jpg','first-3.jpg','first-4.jpg'],
 videos:['first-tour-web.mp4']
 },
-{
-floor:'Standard Room',
-category:'Without Balcony',
-price:'₹1,200',
-desc:'A comfortable room featuring warm wooden interiors, a double bed, wooden ceiling and a cosy seating area. A practical choice for a relaxed stay in Manali.',
-facts:['2 Adults','Without Balcony','Wooden interiors'],
-photos:['without-balcony-1.jpg','without-balcony-2.jpg'],
-videos:[]
-},
+
 {
 floor:'Honeymoon Special',
-category:'Romantic Room',
 price:'₹5,000',
 desc:'A specially decorated romantic room for couples, featuring floral bed decoration, towel art and a warm wooden interior. Available on the 3rd Floor and Top Floor. Please confirm your preferred floor and dates on WhatsApp.',
-facts:['2 Adults','3rd Floor','Top Floor','Romantic decoration'],
+facts:['2 Adults','3rd Floor','Top Floor','Romantic room decoration'],
 photos:['honeymoon-1.jpg','honeymoon-2.jpg','honeymoon-3.jpg'],
-videos:['honeymoon-video-1.mp4']
+videos:['honeymoon-video-1.mp4','honeymoon-video-2.mp4']
 }
+
 ];
 
 const root=document.getElementById('rooms');
 
-function whatsappLink(floor,category,price){
-const message=`Hello Snowline Heights, I am interested in the ${floor} - ${category} (${price} per room per night for 2 adults). Please share availability and final price for my dates.`;
-return 'https://wa.me/917807910146?text='+encodeURIComponent(message);
-}
-
 rooms.forEach((r,i)=>{
-const id='room'+i;
+const id='s'+i;
+
+const wa='https://wa.me/917807910146?text='+
+encodeURIComponent(
+`Hello Snowline Heights, I am interested in the ${r.floor} Room (${r.price} per room per night). Please share availability and final price for my dates.`
+);
+
 const photoHtml=r.photos.map((p,j)=>
 `<img src="assets/${p}" alt="${r.floor} room photo ${j+1}" loading="${j?'lazy':'eager'}">`
 ).join('');
 
 const videoHtml=r.videos.map((v,j)=>
-`<div>
-<h4>${r.videos.length>1?'Room Video Tour '+(j+1):'Room Video Tour'}</h4>
+`<div class="video">
+<h3>${r.videos.length>1?'Room Video Tour '+(j+1):'Room Video Tour'}</h3>
 <video controls playsinline preload="metadata" poster="assets/${r.photos[0]}">
 <source src="assets/${v}" type="video/mp4">
 </video>
@@ -241,33 +156,38 @@ const videoHtml=r.videos.map((v,j)=>
 
 root.insertAdjacentHTML('beforeend',`
 <article class="room">
-<div class="gallery">
+<div class="roomhead">
+<div class="eyebrow">ROOM COLLECTION / ${r.floor.toUpperCase()}</div>
+</div>
+
 <div class="slider">
 <div class="track" id="${id}">${photoHtml}</div>
-<button class="arrow prev" aria-label="Previous photo" onclick="move('${id}',-1)">‹</button>
-<button class="arrow next" aria-label="Next photo" onclick="move('${id}',1)">›</button>
+<button class="nav prev" aria-label="Previous photo" onclick="move('${id}',-1)">‹</button>
+<button class="nav next" aria-label="Next photo" onclick="move('${id}',1)">›</button>
 <div class="count" id="${id}count">01 / ${String(r.photos.length).padStart(2,'0')}</div>
 </div>
+
 <div class="dots" id="${id}dots">
-${r.photos.map((_,j)=>`<button class="dot ${j?'':'on'}" aria-label="Show photo ${j+1}" onclick="go('${id}',${j})"></button>`).join('')}
+${r.photos.map((_,j)=>
+`<button class="dot ${j?'':'on'}" aria-label="Show photo ${j+1}" onclick="go('${id}',${j})">${String(j+1).padStart(2,'0')}</button>`
+).join('')}
 <span class="swipe">Swipe photos</span>
 </div>
-</div>
 
-<div class="room-info">
-<div class="floor-label">${r.category.toUpperCase()}</div>
-<h3>${r.floor}</h3>
-<p class="description">${r.desc}</p>
-<div class="rate-box">
-<div class="rate-title">${r.category.toUpperCase()}</div>
-<div class="rate-price">${r.price} <small>/ room / night</small></div>
-<a class="book" href="${whatsappLink(r.floor,r.category,r.price)}" target="_blank" rel="noopener">Enquire on WhatsApp</a>
-</div>
+<div class="details">
+<h3>${r.floor} Room</h3>
+<div class="price">${r.price}<small>/ room / night</small></div>
+<h4>Room description</h4>
+<p>${r.desc}</p>
 <div class="facts">${r.facts.map(f=>`<span>${f}</span>`).join('')}</div>
-${r.floor==='Honeymoon Special'?'<p class="special-note">For 2 adults · Available on 3rd Floor and Top Floor</p>':''}
 </div>
 
-${videoHtml?`<div class="video"><div class="video-list">${videoHtml}</div></div>`:''}
+${videoHtml}
+
+<a class="cta" href="${wa}" target="_blank" rel="noopener">
+WhatsApp Booking Enquiry
+<small>+91 78079 10146</small>
+</a>
 </article>
 `);
 });
@@ -281,9 +201,9 @@ indexes[id]=(n+total)%total;
 track.style.transform=`translateX(-${indexes[id]*100}%)`;
 document.getElementById(id+'count').textContent=
 `${String(indexes[id]+1).padStart(2,'0')} / ${String(total).padStart(2,'0')}`;
-[...document.getElementById(id+'dots').querySelectorAll('.dot')].forEach((d,j)=>{
-d.classList.toggle('on',j===indexes[id]);
-});
+
+[...document.getElementById(id+'dots').querySelectorAll('.dot')]
+.forEach((d,j)=>d.classList.toggle('on',j===indexes[id]));
 }
 
 function move(id,d){
@@ -295,8 +215,9 @@ let x=0;
 t.addEventListener('touchstart',e=>{
 x=e.changedTouches[0].screenX;
 },{passive:true});
+
 t.addEventListener('touchend',e=>{
-const dx=e.changedTouches[0].screenX-x;
+let dx=e.changedTouches[0].screenX-x;
 if(Math.abs(dx)>45)move(t.id,dx<0?1:-1);
 },{passive:true});
 });
