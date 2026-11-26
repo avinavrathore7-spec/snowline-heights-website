@@ -15,7 +15,7 @@ module.exports = async function handler(req, res) {
 
   const headers = { apikey: key, Authorization: "Bearer " + key };
   const base = url.replace(/\/$/, "");
-  const q = new URLSearchParams({ select: "id,name,base_price,max_adults", name: "eq." + room_type, is_active: "eq.true", limit: "1" });
+  const q = new URLSearchParams({ select: "id,name,base_price,max_adults", is_active: "eq.true", order: "name.asc" });
   try {
     const typeResponse = await fetch(base + "/rest/v1/room_types?" + q.toString(), { headers });
     if (!typeResponse.ok) {
@@ -23,8 +23,10 @@ module.exports = async function handler(req, res) {
       return res.status(502).json({ error: "Supabase room_types request failed", upstream_status: typeResponse.status, detail });
     }
     const types = await typeResponse.json();
-    if (!types.length) return res.status(404).json({ error: "Selected room category was not found.", requested_room_type: room_type });
-    const type = types[0];
+    const normalize = (value) => String(value || "").normalize("NFKD").toLowerCase().replace(/[^a-z0-9]/g, "");
+    const requested = normalize(room_type);
+    const type = types.find(item => normalize(item.name) === requested);
+    if (!type) return res.status(404).json({ error: "Selected room category was not found.", requested_room_type: room_type, available_categories: types.map(item => item.name) });
     if (adults > type.max_adults) return res.status(400).json({ error: "This room category allows up to " + type.max_adults + " adults." });
 
     const roomQuery = new URLSearchParams({ select: "id,room_number,floor", room_type_id: "eq." + type.id, is_active: "eq.true", order: "room_number.asc" });
