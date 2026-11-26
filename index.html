@@ -196,9 +196,9 @@ rooms.forEach((r,i)=>{
 
 const id='s'+i;
 
-const wa='https://wa.me/917807910146?text='+encodeURIComponent(
-`Hello Snowline Heights, I am interested in the ${r.floor} Room (${r.price} per room per night). Please share availability and final price for my dates.`
-);
+const enquiryText=encodeURIComponent(`Hello Snowline Heights, I am interested in the ${r.floor} Room (${r.price} per room per night). Please share availability and final price for my dates.`);
+const waPrimary='https://wa.me/917807910146?text='+enquiryText;
+const waSecondary='https://wa.me/918219561556?text='+enquiryText;
 
 const photoHtml=r.photos.map((p,j)=>
 `<img src="assets/${p}" alt="${r.floor} room photo ${j+1}" loading="${j?'lazy':'eager'}">`
@@ -255,7 +255,11 @@ ${amenities.map(a=>`<span>${a}</span>`).join('')}
 
 ${videoHtml}
 
-<!-- WhatsApp enquiry CTA removed: website booking flow is the single customer entry point. -->
+<div class="cta" style="display:grid;gap:9px">
+<a href="${waPrimary}" target="_blank" rel="noopener" style="color:inherit;text-decoration:none">WhatsApp Booking · Primary</a>
+<a href="${waSecondary}" target="_blank" rel="noopener" style="display:block;background:#285c4d;border:1px solid #6c8e7e;border-radius:11px;padding:11px;color:white;text-decoration:none;font-size:15px">WhatsApp Booking · Alternate</a>
+<small>Choose either number to enquire about this room</small>
+</div>
 
 </article>
 `);
