@@ -7,356 +7,61 @@
 <meta name="theme-color" content="#102f27">
 <meta name="description" content="Explore rooms at Snowline Heights, Manali. View actual room photos, video tours and enquire directly on WhatsApp.">
 <title>Rooms & Tariffs | Snowline Heights Manali</title>
-
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
 
 <style>
-:root{
---green:#153b31;
---green2:#0d2b23;
---lime:#1c6b45;
---gold:#c9b58a;
---bg:#050706;
---panel:#090d0b;
---muted:#a9b0ac;
---line:#202a25;
---white:#f5f7f5
-}
-
+:root{--green:#153b31;--green2:#0d2b23;--lime:#1c6b45;--gold:#c9b58a;--bg:#050706;--panel:#090d0b;--muted:#a9b0ac;--line:#202a25;--white:#f5f7f5}
 *{box-sizing:border-box}
 html{scroll-behavior:smooth}
-
-body{
-margin:0;
-background:var(--bg);
-color:var(--white);
-font:16px/1.55 'DM Sans',sans-serif
-}
-
-.top{
-background:var(--green);
-padding:19px 20px 17px;
-position:sticky;
-top:0;
-z-index:10;
-border-bottom:1px solid #ffffff10
-}
-
-.brand{
-font-size:21px;
-line-height:1.2;
-font-weight:700;
-letter-spacing:.3px
-}
-
-.sub{
-margin-top:8px;
-color:#d6c9a9;
-font-size:13px;
-letter-spacing:1.1px
-}
-
-.intro{
-max-width:760px;
-margin:28px auto 12px;
-padding:0 18px
-}
-
-.intro h1{
-font-size:25px;
-line-height:1.2;
-margin:0 0 7px
-}
-
-.intro p{
-color:var(--muted);
-margin:0;
-font-size:14px
-}
-
-.rooms{
-max-width:760px;
-margin:0 auto;
-padding:0 14px 36px
-}
-
-.room{
-background:var(--panel);
-border:1px solid var(--line);
-border-radius:20px;
-overflow:hidden;
-margin:18px 0 24px
-}
-
+body{margin:0;background:var(--bg);color:var(--white);font:16px/1.55 'DM Sans',sans-serif}
+.top{background:var(--green);padding:19px 20px 17px;position:sticky;top:0;z-index:10;border-bottom:1px solid #ffffff10}
+.brand{font-size:21px;line-height:1.2;font-weight:700;letter-spacing:.3px}
+.sub{margin-top:8px;color:#d6c9a9;font-size:13px;letter-spacing:1.1px}
+.intro{max-width:760px;margin:28px auto 12px;padding:0 18px}
+.intro h1{font-size:25px;line-height:1.2;margin:0 0 7px}
+.intro p{color:var(--muted);margin:0;font-size:14px}
+.rooms{max-width:760px;margin:0 auto;padding:0 14px 36px}
+.room{background:var(--panel);border:1px solid var(--line);border-radius:20px;overflow:hidden;margin:18px 0 24px}
 .roomhead{padding:16px 16px 12px}
-
-.eyebrow{
-font-size:11px;
-color:#b7bcb9;
-letter-spacing:.7px;
-text-transform:uppercase
-}
-
-.price{
-color:#c9b58a;
-font-size:37px;
-line-height:1.1;
-font-weight:700;
-letter-spacing:-1px
-}
-
-.price small{
-display:block;
-color:#aeb6b1;
-font-size:16px;
-line-height:1.5;
-font-weight:400;
-letter-spacing:0;
-margin-top:3px
-}
-
-.slider{
-position:relative;
-overflow:hidden;
-background:#0b100e;
-touch-action:pan-y
-}
-
-.track{
-display:flex;
-transition:transform .32s ease
-}
-
-/* Room photos: preserve complete image, do not crop */
-.track img{
-flex:0 0 100%;
-width:100%;
-height:clamp(430px,118vw,590px);
-object-fit:contain;
-object-position:center;
-display:block;
-background:#0b100e
-}
-
-.nav{
-position:absolute;
-top:50%;
-transform:translateY(-50%);
-width:38px;
-height:38px;
-border:1px solid #ffffff55;
-border-radius:50%;
-background:#07110dcc;
-color:white;
-font-size:24px;
-line-height:1;
-cursor:pointer
-}
-
-.prev{left:10px}
-.next{right:10px}
-
-.count{
-position:absolute;
-bottom:10px;
-right:10px;
-background:#07110ddd;
-color:white;
-border-radius:30px;
-padding:4px 9px;
-font-size:11px
-}
-
-.dots{
-display:flex;
-align-items:center;
-justify-content:center;
-gap:8px;
-padding:12px 8px 17px;
-color:#aeb6b1;
-font-size:13px
-}
-
-.dot{
-border:0;
-border-radius:22px;
-min-width:43px;
-height:31px;
-padding:0 11px;
-background:#242927;
-color:#f2f4f2;
-font:500 13px 'DM Sans',sans-serif;
-cursor:pointer
-}
-
-.dot.on{
-background:#075b32;
-color:#d8f3df
-}
-
-.swipe{
-margin-left:4px;
-white-space:nowrap
-}
-
-.details{
-padding:18px 16px 19px;
-border-top:1px solid var(--line)
-}
-
-.details h3{
-font-size:25px;
-line-height:1.25;
-margin:0 0 14px
-}
-
-.details h4{
-font-size:19px;
-margin:14px 0 8px
-}
-
-.details p{
-font-size:16px;
-line-height:1.55;
-margin:0;
-color:#e2e6e3
-}
-
-.facts{
-display:flex;
-flex-wrap:wrap;
-gap:8px;
-margin-top:13px
-}
-
-.facts span{
-font-size:12px;
-background:#252a28;
-color:#e1e5e2;
-border-radius:22px;
-padding:6px 11px
-}
-
-.cta{
-display:block;
-margin:0 12px 14px;
-background:var(--green);
-border:1px solid #285c4d;
-color:white;
-text-decoration:none;
-text-align:center;
-border-radius:16px;
-padding:16px 12px;
-font-size:18px;
-font-weight:700
-}
-
-.cta small{
-display:block;
-color:#d6c9a9;
-font-size:14px;
-font-weight:500;
-margin-top:5px
-}
-
+.eyebrow{font-size:11px;color:#b7bcb9;letter-spacing:.7px;text-transform:uppercase}
+.price{color:#c9b58a;font-size:37px;line-height:1.1;font-weight:700;letter-spacing:-1px}
+.price small{display:block;color:#aeb6b1;font-size:16px;line-height:1.5;font-weight:400;letter-spacing:0;margin-top:3px}
+.slider{position:relative;overflow:hidden;background:#0b100e;touch-action:pan-y}
+.track{display:flex;transition:transform .32s ease}
+.track img{flex:0 0 100%;width:100%;height:clamp(430px,118vw,590px);object-fit:contain;object-position:center;display:block;background:#0b100e}
+.nav{position:absolute;top:50%;transform:translateY(-50%);width:38px;height:38px;border:1px solid #ffffff55;border-radius:50%;background:#07110dcc;color:white;font-size:24px;line-height:1;cursor:pointer}
+.prev{left:10px}.next{right:10px}
+.count{position:absolute;bottom:10px;right:10px;background:#07110ddd;color:white;border-radius:30px;padding:4px 9px;font-size:11px}
+.dots{display:flex;align-items:center;justify-content:center;gap:8px;padding:12px 8px 17px;color:#aeb6b1;font-size:13px}
+.dot{border:0;border-radius:22px;min-width:43px;height:31px;padding:0 11px;background:#242927;color:#f2f4f2;font:500 13px 'DM Sans',sans-serif;cursor:pointer}
+.dot.on{background:#075b32;color:#d8f3df}
+.swipe{margin-left:4px;white-space:nowrap}
+.details{padding:18px 16px 19px;border-top:1px solid var(--line)}
+.details h3{font-size:25px;line-height:1.25;margin:0 0 14px}
+.details h4{font-size:19px;margin:14px 0 8px}
+.details p{font-size:16px;line-height:1.55;margin:0;color:#e2e6e3}
+.facts{display:flex;flex-wrap:wrap;gap:8px;margin-top:13px}
+.facts span{font-size:12px;background:#252a28;color:#e1e5e2;border-radius:22px;padding:6px 11px}
+.amenities{margin-top:17px;padding-top:14px;border-top:1px solid var(--line)}
+.amenities h4{font-size:17px;margin:0 0 10px}
+.amenity-list{display:flex;flex-wrap:wrap;gap:8px}
+.amenity-list span{font-size:12px;background:#252a28;color:#e1e5e2;border-radius:22px;padding:7px 10px}
+.cta{display:block;margin:0 12px 14px;background:var(--green);border:1px solid #285c4d;color:white;text-decoration:none;text-align:center;border-radius:16px;padding:16px 12px;font-size:18px;font-weight:700}
+.cta small{display:block;color:#d6c9a9;font-size:14px;font-weight:500;margin-top:5px}
 .video{padding:2px 14px 18px}
-
-.video h3{
-font-size:18px;
-margin:7px 0 10px
-}
-
-.video video{
-width:100%;
-max-height:430px;
-border-radius:12px;
-background:#000;
-display:block
-}
-
-/* Amenities section */
-.section{
-max-width:760px;
-margin:12px auto 28px;
-padding:0 14px
-}
-
-.section-card{
-background:var(--panel);
-border:1px solid var(--line);
-border-radius:20px;
-padding:20px 18px
-}
-
-.section-title{
-font-size:24px;
-line-height:1.25;
-margin:0 0 8px
-}
-
-.section-subtitle{
-color:var(--muted);
-font-size:14px;
-margin:0 0 18px
-}
-
-.amenities-grid{
-display:grid;
-grid-template-columns:repeat(2,minmax(0,1fr));
-gap:10px
-}
-
-.amenity{
-background:#252a28;
-border:1px solid #303936;
-border-radius:12px;
-padding:11px 12px;
-font-size:13px;
-color:#e8ece9
-}
-
-/* Bonfire section */
-.bonfire-image{
-width:100%;
-height:260px;
-object-fit:cover;
-object-position:center;
-border-radius:14px;
-display:block;
-margin:14px 0
-}
-
-.bonfire-copy{
-font-size:15px;
-line-height:1.6;
-color:#e2e6e3;
-margin:0
-}
-
-.bonfire-note{
-color:#c9b58a;
-font-size:13px;
-margin-top:12px
-}
-
-.notice{
-text-align:center;
-color:#929b95;
-font-size:12px;
-padding:0 18px 25px
-}
-
-.footer{
-text-align:center;
-background:#0b100e;
-border-top:1px solid var(--line);
-color:#a8b1ab;
-font-size:11px;
-letter-spacing:1px;
-padding:23px 12px
-}
+.video h3{font-size:18px;margin:7px 0 10px}
+.video video{width:100%;max-height:430px;border-radius:12px;background:#000;display:block}
+.bonfire{max-width:760px;margin:18px auto 20px;padding:0 14px}
+.bonfire-card{background:var(--panel);border:1px solid var(--line);border-radius:20px;overflow:hidden;padding:17px}
+.bonfire h2{font-size:22px;line-height:1.25;margin:0 0 7px}
+.bonfire .subtext{color:var(--muted);font-size:14px;margin:0}
+.bonfire-image{width:100%;height:260px;object-fit:cover;object-position:center;border-radius:13px;display:block;margin:14px 0}
+.bonfire-copy{font-size:15px;line-height:1.6;color:#e2e6e3;margin:0}
+.bonfire-note{color:#c9b58a;font-size:13px;margin:10px 0 0}
+.notice{text-align:center;color:#929b95;font-size:12px;padding:0 18px 25px}
+.footer{text-align:center;background:#0b100e;border-top:1px solid var(--line);color:#a8b1ab;font-size:11px;letter-spacing:1px;padding:23px 12px}
 
 @media(min-width:700px){
 .top{padding-left:max(22px,calc((100% - 720px)/2))}
@@ -365,12 +70,10 @@ padding:23px 12px
 .roomhead{padding:20px 22px 14px}
 .details{padding:20px 22px}
 .cta{margin:0 16px 16px}
-.section-card{padding:24px}
+.bonfire-card{padding:20px}
 .bonfire-image{height:340px}
 }
-
 @media(max-width:420px){
-.amenities-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
 .track img{height:clamp(330px,118vw,500px)}
 }
 </style>
@@ -383,54 +86,30 @@ padding:23px 12px
 <div class="sub">MANALI · HIMACHAL PRADESH</div>
 </header>
 
+<!-- BONFIRE AT THE TOP -->
+<section class="bonfire">
+<div class="bonfire-card">
+<h2>Bonfire Experience</h2>
+<p class="subtext">Enjoy a cosy evening in the mountains.</p>
+<img class="bonfire-image"
+src="https://images.pexels.com/photos/5023621/pexels-photo-5023621.jpeg?auto=compress&cs=tinysrgb&w=1200"
+alt="Outdoor bonfire experience"
+loading="lazy">
+<p class="bonfire-copy">
+Make your Manali evenings special with a relaxing bonfire experience. Spend quality time with your loved ones in the mountain atmosphere.
+</p>
+<p class="bonfire-note">
+Bonfire is subject to availability and additional charges. Please enquire with us for details.
+</p>
+</div>
+</section>
+
 <section class="intro">
 <h1>Rooms at Snowline Heights</h1>
 <p>Explore our room collection, swipe through actual photographs and watch room video tours.</p>
 </section>
 
 <main class="rooms" id="rooms"></main>
-
-<!-- Amenities -->
-<section class="section">
-<div class="section-card">
-<h2 class="section-title">Amenities & Facilities</h2>
-<p class="section-subtitle">Comfort and convenience for a pleasant stay.</p>
-
-<div class="amenities-grid">
-<div class="amenity">Free Wi-Fi</div>
-<div class="amenity">Hot water</div>
-<div class="amenity">Room service</div>
-<div class="amenity">Attached bathroom</div>
-<div class="amenity">Comfortable bedding</div>
-<div class="amenity">Parking</div>
-<div class="amenity">TV</div>
-<div class="amenity">Electric Kettle</div>
-</div>
-</div>
-</section>
-
-<!-- Bonfire -->
-<section class="section">
-<div class="section-card">
-<h2 class="section-title">Bonfire Experience</h2>
-<p class="section-subtitle">Enjoy a cosy evening in the mountains.</p>
-
-<img
-class="bonfire-image"
-src="https://images.pexels.com/photos/5023621/pexels-photo-5023621.jpeg?auto=compress&cs=tinysrgb&w=1200"
-alt="Outdoor bonfire experience"
-loading="lazy"
->
-
-<p class="bonfire-copy">
-Make your Manali evenings special with a relaxing bonfire experience. Spend quality time with your loved ones in the mountain atmosphere.
-</p>
-
-<p class="bonfire-note">
-Bonfire is subject to availability and additional charges. Please enquire with us for details.
-</p>
-</div>
-</section>
 
 <div class="notice">
 Rates are per room per night for 2 adults. Final tariff and availability are confirmed for your travel dates.
@@ -441,6 +120,17 @@ SNOWLINE HEIGHTS · MANALI · HIMACHAL PRADESH
 </footer>
 
 <script>
+const amenities=[
+'Free Wi-Fi',
+'Hot water',
+'Room service',
+'Attached bathroom',
+'Comfortable bedding',
+'Parking',
+'TV',
+'Electric Kettle'
+];
+
 const rooms=[
 
 {
@@ -502,10 +192,10 @@ videos:['honeymoon-video-1.mp4']
 const root=document.getElementById('rooms');
 
 rooms.forEach((r,i)=>{
+
 const id='s'+i;
 
-const wa='https://wa.me/917807910146?text='+
-encodeURIComponent(
+const wa='https://wa.me/917807910146?text='+encodeURIComponent(
 `Hello Snowline Heights, I am interested in the ${r.floor} Room (${r.price} per room per night). Please share availability and final price for my dates.`
 );
 
@@ -524,6 +214,7 @@ const videoHtml=r.videos.map((v,j)=>
 
 root.insertAdjacentHTML('beforeend',`
 <article class="room">
+
 <div class="roomhead">
 <div class="eyebrow">ROOM COLLECTION / ${r.floor.toUpperCase()}</div>
 </div>
@@ -545,9 +236,20 @@ ${r.photos.map((_,j)=>
 <div class="details">
 <h3>${r.floor} Room</h3>
 <div class="price">${r.price}<small>/ room / night</small></div>
+
 <h4>Room description</h4>
 <p>${r.desc}</p>
-<div class="facts">${r.facts.map(f=>`<span>${f}</span>`).join('')}</div>
+
+<div class="facts">
+${r.facts.map(f=>`<span>${f}</span>`).join('')}
+</div>
+
+<div class="amenities">
+<h4>Amenities & Facilities</h4>
+<div class="amenity-list">
+${amenities.map(a=>`<span>${a}</span>`).join('')}
+</div>
+</div>
 </div>
 
 ${videoHtml}
@@ -556,6 +258,7 @@ ${videoHtml}
 WhatsApp Booking Enquiry
 <small>+91 78079 10146</small>
 </a>
+
 </article>
 `);
 });
