@@ -22,7 +22,7 @@ module.exports = async function handler(req, res) {
   const headers = { apikey: serviceKey, Authorization: "Bearer " + serviceKey, "Content-Type": "application/json" };
   const rest = (path, options = {}) => fetch(base + "/rest/v1/" + path, { ...options, headers: { ...headers, ...(options.headers || {}) } });
   try {
-    const bookingResp = await rest("bookings?select=id,booking_code,total_amount,booking_status,payment_status&booking_code=eq." + encodeURIComponent(booking_code) + "&limit=1");
+    const bookingResp = await rest("bookings?select=id,booking_code,total_amount,booking_status,payment_status,created_at&booking_code=eq." + encodeURIComponent(booking_code) + "&limit=1");
     if (!bookingResp.ok) throw new Error("Could not load booking.");
     const booking = (await bookingResp.json())[0];
     if (!booking) return res.status(404).json({ error: "Booking not found." });
@@ -31,6 +31,20 @@ module.exports = async function handler(req, res) {
     if (!paymentResp.ok) throw new Error("Could not load payment record.");
     const payment = (await paymentResp.json())[0];
     if (!payment) return res.status(404).json({ error: "Payment order does not match this booking." });
+
+    if (booking.booking_status === "confirmed" && booking.payment_status === "paid" && payment.payment_status === "captured") {
+      return res.status(200).json({ success: true, booking_code, advance_paid: Number(payment.amount), balance_due: Math.round((Number(booking.total_amount) - Number(payment.amount)) * 100) / 100, message: "Booking is already confirmed." });
+    }
+    if (booking.booking_status !== "pending" || booking.payment_status !== "pending") {
+      return res.status(409).json({ error: "This booking hold is no longer active. If payment was deducted, contact the hotel with your booking code." });
+    }
+    const createdAt = Date.parse(booking.created_at);
+    if (!Number.isFinite(createdAt) || Date.now() - createdAt > 10 * 60 * 1000) {
+      return res.status(410).json({ error: "The 10-minute room hold has expired. If payment was deducted, contact the hotel with your booking code." });
+    }
+    const roomResp = await rest("booking_rooms?select=id&booking_id=eq." + booking.id + "&limit=1");
+    if (!roomResp.ok) throw new Error("Could not verify the room hold.");
+    if (!(await roomResp.json()).length) return res.status(409).json({ error: "The room hold is no longer active. If payment was deducted, contact the hotel with your booking code." });
 
     const auth = Buffer.from(keyId + ":" + keySecret).toString("base64");
     const razorResp = await fetch("https://api.razorpay.com/v1/payments/" + encodeURIComponent(razorpay_payment_id), { headers: { Authorization: "Basic " + auth } });
@@ -48,11 +62,13 @@ module.exports = async function handler(req, res) {
       body: JSON.stringify({ provider_payment_id: razorpay_payment_id, payment_status: "captured" })
     });
     if (!updatePayment.ok) throw new Error("Payment was received but the payment record could not be updated. Contact the hotel.");
-    const updateBooking = await rest("bookings?id=eq." + booking.id, {
-      method: "PATCH", headers: { Prefer: "return=minimal" },
+    const updateBooking = await rest("bookings?id=eq." + booking.id + "&booking_status=eq.pending&payment_status=eq.pending", {
+      method: "PATCH", headers: { Prefer: "return=representation" },
       body: JSON.stringify({ payment_status: "paid", booking_status: "confirmed" })
     });
     if (!updateBooking.ok) throw new Error("Payment was received but booking confirmation needs hotel assistance. Contact the hotel with code " + booking_code + ".");
+    const updatedRows = await updateBooking.json();
+    if (!updatedRows.length) throw new Error("Payment was received, but the room hold changed before confirmation. Contact the hotel with code " + booking_code + ".");
     return res.status(200).json({ success: true, booking_code, advance_paid: Number(payment.amount), balance_due: Math.round((Number(booking.total_amount) - Number(payment.amount)) * 100) / 100, message: "25% advance payment successful. Your booking is confirmed." });
   } catch (error) {
     return res.status(500).json({ error: error.message || "Could not verify payment." });
